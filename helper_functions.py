@@ -9,7 +9,7 @@ import requests
 from bs4 import BeautifulSoup
 from datetime import date, datetime
 import json
-  
+
 def extract_treasury_rates(url):
     req = requests.get(url)
     bs = BeautifulSoup(req.content,'lxml')
@@ -38,24 +38,24 @@ def extract_treasury_rates(url):
             df_date.append(j.text)
         elif count == 2:
             df_1mo.append(float(j.text))
-        elif count == 4: 
+        elif count == 4:
             df_3mo.append(float(j.text))
-        elif count == 5: 
+        elif count == 5:
             df_6mo.append(float(j.text))
-        elif count == 6: 
+        elif count == 6:
             df_1yr.append(float(j.text))
-        elif count == 8: 
+        elif count == 8:
             df_3yr.append(float(j.text))
-        elif count == 9: 
+        elif count == 9:
             df_5yr.append(float(j.text))
-        elif count == 11: 
+        elif count == 11:
             df_10yr.append(float(j.text))
-        elif count == 12: 
+        elif count == 12:
             df_20yr.append(float(j.text))
-        elif count == 13: 
+        elif count == 13:
             df_30yr.append(float(j.text))
             count = 0
-        
+
     df_rates = pd.DataFrame()
     df_rates['1mo'] = df_1mo
     df_rates['3mo'] = df_3mo
@@ -128,24 +128,24 @@ def dash_create(df_unemp_rate,df_gdp,df_inflation,df_rates,yield_curve,vix,index
   plt.yticks(size=20)
   plt.ylabel('Rate (%)',size=25)
   plt.xlabel('Treasury Security',size=25)
-  
+
   #vix_data = {"MarketPrice":vix.info['regularMarketPrice'],"PreviousClose":vix.info['regularMarketPreviousClose'],"MarketOpen":vix.info['regularMarketOpen'],"DayHigh":vix.info['dayHigh'],"DayLow":vix.info['dayLow']}
-  f3_ax4 = fig3.add_subplot(gs[0:10,2])  
+  f3_ax4 = fig3.add_subplot(gs[0:10,2])
   #plt.subplot(2,3,3)
-  plots = sns.barplot(y="Change Percent", x="Index", data=indexes,alpha=0.8) 
-    
-  # Iterrating over the bars one-by-one 
-  for bar in plots.patches: 
-    # Using Matplotlib's annotate function and 
-    # passing the coordinates where the annotation shall be done 
-    # x-coordinate: bar.get_x() + bar.get_width() / 2 
-    # y-coordinate: bar.get_height() 
-    # free space to be left to make graph pleasing: (0, 8) 
-    # ha and va stand for the horizontal and vertical alignment 
-      plots.annotate(format(bar.get_height(), '.2f'),  
-                    (bar.get_x() + bar.get_width() / 2,bar.get_height()+0.6), ha='center', va='center', 
-                    size=20, xytext=(0,8), 
-                    textcoords='offset points')  
+  plots = sns.barplot(y="Change Percent", x="Index", data=indexes,alpha=0.8)
+
+  # Iterrating over the bars one-by-one
+  for bar in plots.patches:
+    # Using Matplotlib's annotate function and
+    # passing the coordinates where the annotation shall be done
+    # x-coordinate: bar.get_x() + bar.get_width() / 2
+    # y-coordinate: bar.get_height()
+    # free space to be left to make graph pleasing: (0, 8)
+    # ha and va stand for the horizontal and vertical alignment
+      plots.annotate(format(bar.get_height(), '.2f'),
+                    (bar.get_x() + bar.get_width() / 2,bar.get_height()+0.6), ha='center', va='center',
+                    size=20, xytext=(0,8),
+                    textcoords='offset points')
   plt.xlabel('Index',size=25)
   plt.ylabel('Change (%)',size=25)
   plt.title('Major Indexes and Assets',size=30)
@@ -153,22 +153,22 @@ def dash_create(df_unemp_rate,df_gdp,df_inflation,df_rates,yield_curve,vix,index
   plt.xticks(size=20,rotation=15)
   plt.yticks(size=20)
 
-  f3_ax4 = fig3.add_subplot(gs[11:21,2])  
+  f3_ax4 = fig3.add_subplot(gs[11:21,2])
   #plt.subplot(2,3,3)
-  plots = sns.barplot(y="Current", x="Index", data=indexes,alpha=0.8) 
-    
-  # Iterrating over the bars one-by-one 
-  for bar in plots.patches: 
-    # Using Matplotlib's annotate function and 
-    # passing the coordinates where the annotation shall be done 
-    # x-coordinate: bar.get_x() + bar.get_width() / 2 
-    # y-coordinate: bar.get_height() 
-    # free space to be left to make graph pleasing: (0, 8) 
-    # ha and va stand for the horizontal and vertical alignment 
-      plots.annotate(format(bar.get_height(), '.2f'),  
-                    (bar.get_x() + bar.get_width() / 2,bar.get_height()+0.6), ha='center', va='center', 
-                    size=20, xytext=(0,8), 
-                    textcoords='offset points')  
+  plots = sns.barplot(y="Current", x="Index", data=indexes,alpha=0.8)
+
+  # Iterrating over the bars one-by-one
+  for bar in plots.patches:
+    # Using Matplotlib's annotate function and
+    # passing the coordinates where the annotation shall be done
+    # x-coordinate: bar.get_x() + bar.get_width() / 2
+    # y-coordinate: bar.get_height()
+    # free space to be left to make graph pleasing: (0, 8)
+    # ha and va stand for the horizontal and vertical alignment
+      plots.annotate(format(bar.get_height(), '.2f'),
+                    (bar.get_x() + bar.get_width() / 2,bar.get_height()+0.6), ha='center', va='center',
+                    size=20, xytext=(0,8),
+                    textcoords='offset points')
   plt.xlabel('Index',size=25)
   plt.ylabel('Current Value',size=25)
   #plt.title('Major Indexes (current value)',size=25)
@@ -237,9 +237,9 @@ def dash_create(df_unemp_rate,df_gdp,df_inflation,df_rates,yield_curve,vix,index
   plt.title('COVID-19 Vaccinations',size=30)
 
   plt.tight_layout(pad=4)
-  
+
   plt.show()
-  
+
 def extract_stock_info(ticker):
   url = "https://yh-finance.p.rapidapi.com/stock/v2/get-summary"
 
@@ -247,11 +247,10 @@ def extract_stock_info(ticker):
 
   headers = {
       'x-rapidapi-host': "yh-finance.p.rapidapi.com",
-      'x-rapidapi-key': "INSERT API KEY"
+      'x-rapidapi-key': "74bc4af187msh713cdadd8892c30p1d7979jsnedeb9856d6ca"
       }
-      
+
   response = requests.request("GET", url, headers=headers, params=querystring)
   data = json.loads(response.text)
 
   return data
-  
